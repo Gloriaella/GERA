@@ -147,7 +147,7 @@ import { databases } from "../Appwrite/client"; // Ensure Query is imported
 import Auth from "../Context/context";
 import { Query } from "appwrite";
 
-const WorkFlows = () => {
+const FlowWorks = () => {
   const { user } = useContext(Auth);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -288,4 +288,4 @@ const WorkFlows = () => {
   );
 };
 
-export default WorkFlows;
+export default FlowWorks;
