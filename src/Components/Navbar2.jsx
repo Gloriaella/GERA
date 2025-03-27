@@ -96,7 +96,7 @@ const Navbar2 = ({ isSidebarOpen, onMenuClick }) => {
     <nav className="flex items-center justify-between p-4 bg-white shadow-md w-full fixed top-0 z-30 left-0 right-0 h-16">
       {/* Left: Hamburger Menu + Logo */}
       <div className="flex items-center">
-        <span className="text-4xl font-bold text-orange-700">GERA</span>
+        <span className="text-4xl font-bold text-orange-700">GELLA</span>
         <div className="pl-7 font-bold md:text-lg text-md mt-2">
           <span className="text-orange-700">
             {user ? `Hello, ${user.name}` : "Hello"}
@@ -105,7 +105,7 @@ const Navbar2 = ({ isSidebarOpen, onMenuClick }) => {
       </div>
 
       {/* Middle: Search Bar */}
-      <div
+      {/* <div
         ref={searchRef}
         className={`relative w-96 max-w-full ${showSearch ? "block" : "hidden"} md:flex`}
       >
@@ -117,7 +117,7 @@ const Navbar2 = ({ isSidebarOpen, onMenuClick }) => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </div>
+      </div> */}
 
       {/* Right: Notifications, Search (Mobile), and Settings */}
       <div className="flex items-center space-x-1">

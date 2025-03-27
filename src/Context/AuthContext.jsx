@@ -62,8 +62,7 @@ const AuthContext = ({ children }) => {
       signIn,
       logout,
       user,
-      theme,
-      setTheme
+      setUser
     }}>
       {children}
     </Auth.Provider>

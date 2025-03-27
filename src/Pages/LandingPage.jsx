@@ -46,14 +46,14 @@ const LandingPage = () => {
         initial={{ rotate: 0, scale: 0 }}
         animate={{ rotate: 360, scale: 1.5 }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute border border-orange-600 rounded-full w-86 h-86 opacity-30"
+        className="absolute border-2 border-orange-600 rounded-full w-86 h-86 opacity-50"
         style={{ top: '7%', left: '7%' }}
       />
       <motion.div
         initial={{ rotate: 0, scale: 0 }}
         animate={{ rotate: 360, scale: 1.5 }}
         transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute border border-orange-600 rounded-full w-86 h-86 opacity-30"
+        className="absolute border-2 border-orange-600 rounded-full w-86 h-86 opacity-50"
         style={{ top: '7%', right: '7%' }}
       />
       {/* Bouncing Circle */}
@@ -64,6 +64,15 @@ const LandingPage = () => {
         className="absolute bg-orange-600 rounded-full w-64 h-64 opacity-20"
         style={{ bottom: '-50px', right: '5%' }}
       />
+{/*        
+      <motion.div
+        initial={{ y: -50 }}
+        animate={{ y: 50 }}
+        transition={{ duration: 2, yoyo: Infinity, ease: "easeInOut" }}
+        className="absolute bg-orange-600 rounded-full w-64 h-64 opacity-20"
+        style={{ bottom: '-50px', left: '5%' }}
+      /> */}
+
       {/* Pulsing Blob */}
       <motion.div
         initial={{ scale: 0.8 }}
@@ -82,11 +91,11 @@ const LandingPage = () => {
         className="relative z-10 max-w-3xl mx-auto p-10 bg-gray-800 bg-opacity-95 rounded-2xl shadow-2xl text-center mt-24"
       >
         <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-          CONQUER YOUR CHAOS WITH <span className="text-orange-600">GERA</span>
+          CONQUER YOUR CHAOS WITH <span className="text-orange-600">GELLA</span>
         </motion.h1>
         <motion.p variants={itemVariants} className="text-lg md:text-xl text-gray-300 mb-8">
           Ever feel like your tasks are plotting against you? Turn that mayhem into miracles.
-          Let GERA be your secret sauce for epic productivity sprinkled with a dash of humor.
+          Let GELLA be your secret sauce for epic productivity sprinkled with a dash of humor.
         </motion.p>
         <motion.div variants={itemVariants}>
           <Link to="/signup">
@@ -112,7 +121,7 @@ const LandingPage = () => {
           className="max-w-4xl mx-auto p-14 bg-gray-800 bg-opacity-95 rounded-2xl shadow-2xl relative"
         >
           <motion.h2 variants={itemVariants} className="text-3xl font-bold text-center text-white mb-4">
-            What is GERA?
+            What is GELLA?
             <motion.div
              initial={{ scale: 0.8 }}
              animate={{ scale: 1.2 }}
@@ -122,7 +131,7 @@ const LandingPage = () => {
       />
           </motion.h2>
           <motion.p variants={itemVariants} className="text-lg text-gray-300 text-center">
-            GERA is a cutting-edge productivity platform that centralizes task management, scheduling, and real-time notifications into one intuitive workspace.
+            GELLA is a cutting-edge productivity platform that centralizes task management, scheduling, and real-time notifications into one intuitive workspace.
           </motion.p>
         </motion.div>
 
@@ -135,7 +144,7 @@ const LandingPage = () => {
           className="max-w-3xl mx-auto p-10 bg-gray-800 bg-opacity-95 rounded-2xl shadow-2xl"
         >
           <motion.h2 variants={itemVariants} className="text-3xl font-bold text-white mb-4">
-            How GERA Works
+            How GELLA Works
             {/* <motion.div
              initial={{ scale: 0.8 }}
              animate={{ scale: 1.2 }}
@@ -165,7 +174,7 @@ const LandingPage = () => {
              transition={{ duration: 3, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
              className="absolute bg-orange-600 rounded-full filter blur-2xl w-80 h-80 opacity-40"
              style={{ top: '70%', right: '-100px' }}
-      />
+            />
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-6">
             {features.map((feature, index) => (
@@ -198,7 +207,7 @@ const LandingPage = () => {
             whileTap={{ scale: 0.95 }}
             className="px-10 py-4 bg-orange-600 text-white rounded-full text-xl font-semibold shadow-xl hover:bg-orange-700 transition-all"
           >
-            Join GERA Now
+            Join GELLA Now
           </motion.button>
         </Link>
       </section>

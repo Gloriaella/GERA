@@ -3,11 +3,14 @@ import { databases } from "../Appwrite/client";
 import Auth from "../Context/context";
 import { FiTrash2 } from "react-icons/fi"; // Trash icon for delete
 import { Query } from "appwrite";
+import { toast } from "react-toastify";
 
 const Notifications = () => {
   const { user } = useContext(Auth);
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [notificationToDelete, setNotificationToDelete] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -35,20 +38,29 @@ const Notifications = () => {
     }
   };
 
-  const handleDelete = async (notificationId) => {
+  const handleDeleteConfirm = (notificationId) => {
+    setNotificationToDelete(notificationId);
+    setShowConfirmModal(true);
+    
+  };
+
+  const handleDelete = async () => {
+    if (!notificationToDelete) return;
     try {
-      // Delete the document from Appwrite
       await databases.deleteDocument(
         "67d4f0f2003cbfbe2a79", // Your database ID
         "67da45a400070c049632", // Your notifications collection ID
-        notificationId
+        notificationToDelete
       );
-      // Remove the notification from the state
       setNotifications((prev) =>
-        prev.filter((notification) => notification.$id !== notificationId)
+        prev.filter((notification) => notification.$id !== notificationToDelete)
       );
     } catch (error) {
       console.error("Error deleting notification:", error);
+    } finally {
+      setShowConfirmModal(false);
+      setNotificationToDelete(null);
+      toast.success("Notification deleted successfully!");
     }
   };
 
@@ -79,7 +91,7 @@ const Notifications = () => {
                 </p>
               </div>
               <button
-                onClick={() => handleDelete(notification.$id)}
+                onClick={() => handleDeleteConfirm(notification.$id)}
                 className="text-red-600 hover:text-red-800 transition-colors"
                 title="Delete Notification"
               >
@@ -88,6 +100,28 @@ const Notifications = () => {
             </li>
           ))}
         </ul>
+      )}
+
+      {showConfirmModal && (
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-xs bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <p className="text-lg font-semibold mb-4">Are you sure you want to delete this notification?</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                className="px-4 py-1 bg-gray-300 rounded-lg hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-1 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

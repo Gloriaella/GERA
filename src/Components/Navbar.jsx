@@ -25,8 +25,8 @@ const Navbar = () => {
   return (
     <div>
       <nav className="flex justify-between items-center w-full px-8 bg-gray-900 pt-5 ">
-         <div className='text-5xl text-orange-600 font-bold font-[arial] '>
-            <h2>GERA</h2>
+         <div className='md:text-5xl text-3xl text-orange-600 font-bold font-[arial] '>
+            <h2>GELLA</h2>
          </div>
           <div>
              <Link to={"/signup"} className=" bg-orange-600 py-2 px-5 text-sm hover:bg-orange-700 rounded-md text-white font-bold  text-center ">

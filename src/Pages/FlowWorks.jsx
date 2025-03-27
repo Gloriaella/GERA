@@ -260,7 +260,7 @@ const FlowWorks = () => {
 
       {/* Modal: Display tasks for the selected status */}
       {selectedStatus && (
-        <div className="fixed inset-0 flex items-center justify-center  backdrop-blur-sm bg-opacity-50 z-50">
+        <div className="fixed inset-0 flex items-center justify-center  backdrop-blur-xs bg-opacity-50 z-50">
           <div className="bg-orange-200 rounded-lg shadow-lg max-w-lg w-full p-6 relative">
             <button onClick={closeModal} className="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
               <FiX size={24} />

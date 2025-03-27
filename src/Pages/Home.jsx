@@ -73,9 +73,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-8 space-y-10 max-w-7xl mx-auto mt-8">
+    <div className="p-8 space-y-10 max-w-7xl mx-auto">
       {/* Welcome Section */}
-      <div className="relative bg-gradient-to-r from-orange-600 to-orange-700 p-12 rounded-3xl text-center shadow-xl text-white">
+      <div className="relative bg-gradient-to-r from-orange-500 to-orange-700 p-12 rounded-3xl text-center shadow-xl text-white">
         <h1 className="text-4xl font-extrabold drop-shadow-lg animate-fadeIn">
           Welcome Back, {user ? user.name : "My Friend"} 🎉
         </h1>

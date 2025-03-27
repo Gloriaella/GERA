@@ -1,78 +1,10 @@
-// import React, { useContext, useState, useEffect } from 'react';
-// import Auth from '../Context/context';
-
-// const Customization = () => {
-//   // Consume theme and setTheme from AuthContext
-//   const { theme, setTheme } = useContext(Auth);
-//   const [localTheme, setLocalTheme] = useState(theme);
-
-//   // State for accent color (defaulting to Tailwind's blue-500 color)
-//   const [accentColor, setAccentColor] = useState(
-//     localStorage.getItem('accentColor') || '#3b82f6'
-//   );
-
-//   // Toggle theme between light and dark
-//   const toggleTheme = () => {
-//     const newTheme = localTheme === 'light' ? 'dark' : 'light';
-//     setLocalTheme(newTheme);
-//     setTheme(newTheme);
-//   };
-
-//   // Update localStorage and CSS variable when accentColor changes
-//   useEffect(() => {
-//     localStorage.setItem('accentColor', accentColor);
-//     document.documentElement.style.setProperty('--accent-color', accentColor);
-//   }, [accentColor]);
-
-//   return (
-//     <div className="bg-white dark:bg-gray-800 text-black dark:text-white p-6 ">
-//       <h2 className="text-2xl font-bold mb-4">Customization</h2>
-      
-//       {/* Theme Toggle Section */}
-//       <div className="mb-6">
-//         <p className="mb-2">
-//           Current Theme: <strong>{localTheme}</strong>
-//         </p>
-//         <button
-//           onClick={toggleTheme}
-//           className="px-4 py-2 text-white rounded hover:opacity-90 transition"
-//           style={{ backgroundColor: 'var(--accent-color)' }}
-//         >
-//           Switch to {localTheme === 'light' ? 'Dark' : 'Light'} Mode
-//         </button>
-//       </div>
-      
-//       {/* Accent Color Picker */}
-//       <div className="mb-6">
-//         <label htmlFor="accent-color" className="block text-sm font-medium text-gray-700 mb-1">
-//           Accent Color:
-//         </label>
-//         <select
-//           id="accent-color"
-//           value={accentColor}
-//           onChange={(e) => setAccentColor(e.target.value)}
-//           className="p-2 border rounded"
-//         >
-//           <option value="#3b82f6">Blue</option>
-//           <option value="#ef4444">Red</option>
-//           <option value="#10b981">Green</option>
-//           <option value="#f59e0b">Yellow</option>
-//         </select>
-//       </div>
-      
-//       <p className="text-gray-600">More customization options coming soon...</p>
-//     </div>
-//   );
-// };
-
-// export default Customization;
-
 
 import React, { useState, useContext } from "react";
-import { FiEye, FiEyeOff } from "react-icons/fi"; // Import Eye icons
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import Auth from "../Context/context";
-import { account } from "../Appwrite/client"; // Ensure you have Appwrite imported
+import { account } from "../Appwrite/client";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const EditProfile = () => {
   const { user, setUser } = useContext(Auth);
@@ -80,11 +12,14 @@ const EditProfile = () => {
   const [email, setEmail] = useState(user?.email || "");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState(""); // Required for Appwrite email/password updates
+  const [showOldPassword, setShowOldPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
+  const toggleOldPasswordVisibility = () => setShowOldPassword(!showOldPassword);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
@@ -92,45 +27,51 @@ const EditProfile = () => {
     e.preventDefault();
     setMessage("");
 
-    // Validate passwords
-    if (password && password !== confirmPassword) {
-      setMessage("Passwords do not match!");
-      return;
-    }
-    
-    if (password && password.length < 8) {
-      setMessage("Password must be at least 8 characters.");
-      return;
-    }
-
     try {
-      // Simulated update for name and email
-      const updatedUser = { ...user, name, email };
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setUser(updatedUser);
-
-      // If a new password is provided, update in Appwrite
-      if (password) {
-        await account.update({ password });
+      // 1️⃣ Update Name (if changed)
+      if (name !== user.name) {
+        await account.updateName(name);
       }
 
+      // 2️⃣ Update Email (requires current password)
+      if (email !== user.email) {
+        if (!oldPassword) {
+          setMessage("Enter your current password to update email.");
+          return;
+        }
+        await account.updateEmail(email, oldPassword);
+      }
+
+      // 3️⃣ Update Password (requires current password)
+      if (password) {
+        if (password !== confirmPassword) {
+          setMessage("Passwords do not match!");
+          return;
+        }
+        if (password.length < 8) {
+          setMessage("Password must be at least 8 characters.");
+          return;
+        }
+        if (!oldPassword) {
+          setMessage("Enter your current password to update password.");
+          return;
+        }
+        await account.updatePassword(password, oldPassword);
+      }
+
+      // ✅ Update user state
+      setUser({ ...user, name, email });
+      toast.success("Profile updated successfully!");
       setMessage("Profile updated successfully!");
-      setTimeout(() => {
-        navigate('/dashboard'); // Change this to your Profile page route
-      }, 1500);
-      
+      setTimeout(() => navigate("/dashboard"), 1500);
     } catch (error) {
-      console.error(error);
-      setMessage("Failed to update profile.");
+      console.error("Update error:", error);
+      setMessage(error.message || "Failed to update profile.");
     }
   };
- 
- 
-
-
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-orange-200">
+    <div className="flex justify-center items-center min-h-screen pb-16 bg-orange-200">
       <div className="max-w-sm w-full bg-white shadow-xl rounded-lg p-6 mt-4">
         <h2 className="text-3xl text-orange-600 font-bold mb-6 text-center">
           EDIT PROFILE
@@ -138,7 +79,7 @@ const EditProfile = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name Field */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 mb-1">Name</label>
+            <label className="block text-gray-700 text-sm mb-1">Name</label>
             <input
               type="text"
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-orange-600"
@@ -150,7 +91,7 @@ const EditProfile = () => {
 
           {/* Email Field */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 mb-1">Email</label>
+            <label className="block text-gray-700 text-sm mb-1">Email</label>
             <input
               type="email"
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-orange-600"
@@ -160,9 +101,27 @@ const EditProfile = () => {
             />
           </div>
 
-          {/* Password Field with Eye Icon */}
+          {/* Old Password Field (Required for email/password update) */}
           <div className="relative">
-            <label className="block text-gray-700 dark:text-gray-200 mb-1">New Password</label>
+            <label className="block text-gray-700 text-sm mb-1">Current Password</label>
+            <input
+              type={showOldPassword ? "text" : "password"}
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-orange-600"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-3 top-7 flex items-center text-gray-500"
+              onClick={toggleOldPasswordVisibility}
+            >
+              {showOldPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
+            </button>
+          </div>
+
+          {/* New Password Field */}
+          <div className="relative">
+            <label className="block text-gray-700 text-sm mb-1">New Password</label>
             <input
               type={showPassword ? "text" : "password"}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-orange-600"
@@ -174,13 +133,13 @@ const EditProfile = () => {
               className="absolute inset-y-0 right-3 top-7 flex items-center text-gray-500"
               onClick={togglePasswordVisibility}
             >
-               {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
             </button>
           </div>
 
-          {/* Confirm Password Field with Eye Icon */}
+          {/* Confirm Password Field */}
           <div className="relative">
-            <label className="block text-gray-700 dark:text-gray-200 mb-1">Confirm Password</label>
+            <label className="block text-gray-700 text-sm mb-1">Confirm New Password</label>
             <input
               type={showConfirmPassword ? "text" : "password"}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-orange-600"
@@ -192,7 +151,7 @@ const EditProfile = () => {
               className="absolute inset-y-0 right-3 top-7 flex items-center text-gray-500"
               onClick={toggleConfirmPasswordVisibility}
             >
-              {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              {showConfirmPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
             </button>
           </div>
 
@@ -205,7 +164,7 @@ const EditProfile = () => {
           </button>
 
           {/* Message */}
-          {message && <p className="text-center text-sm text-green-500 mt-2">{message}</p>}
+          {message && <p className="text-center text-sm text-red-500 mt-2">{message}</p>}
         </form>
       </div>
     </div>
@@ -213,4 +172,5 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
+
 
