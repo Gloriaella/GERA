@@ -25,6 +25,7 @@ const Navbar2 = ({ isSidebarOpen, onMenuClick }) => {
 
   const handleLogout = () => {
     setShowSettings(false); // Close the dropdown
+    toast.success("Logout Successful!")
     setTimeout(() => {
       logout(); // Call the logout function from AuthContext
       navigate("/"); // Redirect to landing page
@@ -68,18 +69,18 @@ const Navbar2 = ({ isSidebarOpen, onMenuClick }) => {
   }, [user]);
 
   // Handle click outside for settings and search.
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
-        setShowSettings(false);
-      }
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSearch(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+  //       setShowSettings(false);
+  //     }
+  //     if (searchRef.current && !searchRef.current.contains(event.target)) {
+  //       setShowSearch(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
   // When the notification bell is clicked, update lastRead and navigate to the notifications page.
   const handleNotificationClick = () => {
@@ -96,7 +97,7 @@ const Navbar2 = ({ isSidebarOpen, onMenuClick }) => {
     <nav className="flex items-center justify-between p-4 bg-white shadow-md w-full fixed top-0 z-30 left-0 right-0 h-16">
       {/* Left: Hamburger Menu + Logo */}
       <div className="flex items-center">
-        <span className="text-4xl font-bold text-orange-700">GELLA</span>
+        <span className="text-4xl font-bold text-orange-700">GERA</span>
         <div className="pl-7 font-bold md:text-lg text-md mt-2">
           <span className="text-orange-700">
             {user ? `Hello, ${user.name}` : "Hello"}

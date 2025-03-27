@@ -91,11 +91,11 @@ const LandingPage = () => {
         className="relative z-10 max-w-3xl mx-auto p-10 bg-gray-800 bg-opacity-95 rounded-2xl shadow-2xl text-center mt-24"
       >
         <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-          CONQUER YOUR CHAOS WITH <span className="text-orange-600">GELLA</span>
+          CONQUER YOUR CHAOS WITH <span className="text-orange-600">GERA</span>
         </motion.h1>
         <motion.p variants={itemVariants} className="text-lg md:text-xl text-gray-300 mb-8">
           Ever feel like your tasks are plotting against you? Turn that mayhem into miracles.
-          Let GELLA be your secret sauce for epic productivity sprinkled with a dash of humor.
+          Let GERA be your secret sauce for epic productivity sprinkled with a dash of humor.
         </motion.p>
         <motion.div variants={itemVariants}>
           <Link to="/signup">
@@ -121,7 +121,7 @@ const LandingPage = () => {
           className="max-w-4xl mx-auto p-14 bg-gray-800 bg-opacity-95 rounded-2xl shadow-2xl relative"
         >
           <motion.h2 variants={itemVariants} className="text-3xl font-bold text-center text-white mb-4">
-            What is GELLA?
+            What is GERA?
             <motion.div
              initial={{ scale: 0.8 }}
              animate={{ scale: 1.2 }}
@@ -131,7 +131,7 @@ const LandingPage = () => {
       />
           </motion.h2>
           <motion.p variants={itemVariants} className="text-lg text-gray-300 text-center">
-            GELLA is a cutting-edge productivity platform that centralizes task management, scheduling, and real-time notifications into one intuitive workspace.
+            GERA is a cutting-edge productivity platform that centralizes task management, scheduling, and real-time notifications into one intuitive workspace.
           </motion.p>
         </motion.div>
 
@@ -144,7 +144,7 @@ const LandingPage = () => {
           className="max-w-3xl mx-auto p-10 bg-gray-800 bg-opacity-95 rounded-2xl shadow-2xl"
         >
           <motion.h2 variants={itemVariants} className="text-3xl font-bold text-white mb-4">
-            How GELLA Works
+            How GERA Works
             {/* <motion.div
              initial={{ scale: 0.8 }}
              animate={{ scale: 1.2 }}
@@ -207,7 +207,7 @@ const LandingPage = () => {
             whileTap={{ scale: 0.95 }}
             className="px-10 py-4 bg-orange-600 text-white rounded-full text-xl font-semibold shadow-xl hover:bg-orange-700 transition-all"
           >
-            Join GELLA Now
+            Join GERA Now
           </motion.button>
         </Link>
       </section>
